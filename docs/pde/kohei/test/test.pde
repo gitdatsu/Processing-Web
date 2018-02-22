@@ -1,21 +1,24 @@
 int n;
 float[] x, y;
 float[] theta, radius;
+float[] speed;
 
 void setup() {
-  size(800, 800);
+  size(window.innerWidth, window.innerHeight);
 
   n = 20;
   x = new float[n];
   y = new float[n];
   theta = new float[n];
   radius = new float[n];
+  speed = new float[n];
 
   for (int i=0; i<n; i++) {
     x[i] = random(width);
     y[i] = random(height);
     theta[i] = random(2.0*PI);
     radius[i] = random(10, 200);
+    speed[i] = random(5.0);
   }
 }
 
@@ -26,7 +29,7 @@ void draw() {
   noStroke();
   fill(255,100);
   for (int i=0; i<n; i++) {
-    theta[i] += 0.01;
+    theta[i] += 0.01*speed[i];
 
     pushMatrix();
     translate(x[i], y[i]);
