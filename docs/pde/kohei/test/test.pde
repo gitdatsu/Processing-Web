@@ -4,7 +4,8 @@ float[] theta, radius;
 float[] speed;
 
 void setup() {
-  size(window.innerWidth, window.innerHeight);
+  //size(window.innerWidth, window.innerHeight);
+  size(600,400);
 
   n = 20;
   x = new float[n];
@@ -37,6 +38,10 @@ void draw() {
     drawTriangle(radius[i]);
     popMatrix();
   }
+}
+
+void mousePressed(){
+
 }
 
 void drawTriangle(float radius) {
