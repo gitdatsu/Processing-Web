@@ -3,9 +3,10 @@ float[] x, y;
 float[] theta, radius;
 float[] speed;
 
+boolean flag;
+
 void setup() {
-  //size(window.innerWidth, window.innerHeight);
-  size(600,400);
+  size(window.innerWidth, window.innerHeight);
 
   n = 20;
   x = new float[n];
@@ -19,37 +20,57 @@ void setup() {
     y[i] = random(height);
     theta[i] = random(2.0*PI);
     radius[i] = random(10, 200);
-    speed[i] = random(5.0);
+    speed[i] = random(0.1,5.0);
   }
+
+  flag = true;
 }
 
 void draw() {
-  background(0);
+  background(flag?0:255);
   float t = millis()/1000.0;
 
-  noStroke();
-  fill(255,100);
   for (int i=0; i<n; i++) {
     theta[i] += 0.01*speed[i];
+    x[i] += speed[i];
+    if(width < x[i]) {
+      x[i] -= width;
+      y[i] = random(height);
+    }
 
     pushMatrix();
     translate(x[i], y[i]);
     rotate(theta[i]);
-    drawTriangle(radius[i]);
+    float r = radius[i]-radius[i]/400.0*dist(x[i], y[i], mouseX, mouseY);
+    r = constrain(r, 10, radius[i]);
+    drawTriangle(r);
     popMatrix();
   }
 }
 
 void mousePressed(){
-
+  flag = !flag;
 }
 
 void drawTriangle(float radius) {
   float theta = 0;
+  float[] tmpX = new float[3];
+  float[] tmpY = new float[3];
+
+  noStroke();
+  fill(flag?255:0,100);
   beginShape();
   for (int i=0; i<3; i++) {
-    vertex(radius*cos(theta), radius*sin(theta));
+    tmpX[i] = radius*cos(theta);
+    tmpY[i] = radius*sin(theta);
+    vertex(tmpX[i], tmpY[i]);
     theta += 2.0*PI/3.0;
   }
   endShape(CLOSE);
+
+  stroke(flag?255:0);
+  for(int i=0;i<3;i++){
+    line(tmpX[i], tmpY[i], mouseX-width/2, mouseY-height/2);
+  }
+
 }
