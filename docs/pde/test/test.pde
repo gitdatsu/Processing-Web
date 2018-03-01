@@ -6,7 +6,8 @@ float[] speed;
 boolean flag;
 
 void setup() {
-  size(window.innerWidth, window.innerHeight);
+  size(window.outerWidth, window.outerHeight);
+  // size(600,600);
 
   n = 20;
   x = new float[n];
